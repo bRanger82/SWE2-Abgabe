@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1489169181 source:c:\users\hase\cprojects\sortfile\sortfile.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<stdbool.h>
+

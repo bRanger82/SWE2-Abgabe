@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1489167065 source:c:\users\hase\cprojects\createfile\createfile.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<stdbool.h>
+
