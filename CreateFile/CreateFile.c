@@ -21,82 +21,9 @@
 
 const int defaultCountNumbers = 100; // Standard-Anzahl Ausgabe Nummern
 const int defaultNumberRange = 100;  // Standard-Zahlenbereich (0 bis 100)
-
-/*
-    Ausgabe der Hilfe bzw. Verwendung auf stdout
-*/
-void printHelp(char * path)
-{
-    printf("Das Programm erzeugt eine Datei mit Zufallszahlen.\n");
-    printf("Aufruf: %s [-h] [-r <zahl>] [-n <zahl>] Dateiname\n", path);
-    printf("Bedeutung der Parameter:\n");
-    printf("\t-n [Anzahl der Zahlen] (Muss groesser 0 sein, Standard: 100), Beispiel: -r 50 (50 Zahlen werden geschrieben)\n");
-    printf("\t-r [Zahlenbereich] (Muss groesser 0 sein, Standard: 100), Beispiel: -n 200 (Zahlen von 0 bis 200)\n");
-    printf("\t-h Gibt diese Hilfe aus\n");
-    printf("\tDateiname: Name der Datei, in welche die Daten geschrieben werden\n");
-    printf("\tACHTUNG: Dateiname muss als letzter Parameter gesetzt sein\n");
-}
-
-/*
-    Erstellt eine Datei mit Zufallszahlen
-    Parameter:
-        - [filename]: Dateiname fuer die Datei, in welche die Werte gespeichert werden
-        - [countNumbers]: Anzahl von Zufallszahlen, welche in die Datei geschrieben werden
-        - [numberRange]: Zahlenbereich fuer die Zufallszahlen (von 0 bis numberRange)
-        - [initRandomizer]: TRUE fuehrt zu einem Initialisieren der Zufallszahl, FALSE liefert fuer jeden Aufruf die selben Zahlen
-        - [writeBinary]: TRUE bedeutet, dass die Ausgabedatei als Binaerdatei gespeichert wird. Bei FALSE erfolgt die Speicherung als plain-text
-    Rueckgabewerte:
-        - EXIT_SUCCESS: Die Methode wurde erfolgreich ausgefuehrt
-        - EXIT_FAILURE: Die Methode wurde nicht erfolgreich ausgefuehrt. Fehlermeldungen erfolgen ueber printf()
-*/
-int createRandomNumberFile(char * filename, int countNumbers, int numberRange, bool initRandomizer, bool writeBinary)
-{
-
-    if (countNumbers < 1)
-    {
-        printf("Fehler: es wurden weniger als 1 Zahl angegeben!\n");
-        return EXIT_FAILURE;
-    }
-
-    if (numberRange < 1)
-    {
-        printf("Fehler: der Zahlenbereich ist kleiner als 1!\n");
-        return EXIT_FAILURE;
-    }
-
-    FILE *fp;
-
-    fp = fopen(filename, "w");
-
-    if(fp == NULL)
-    {
-        printf("Fehler: Datei konnte nicht geoeffnet werden.\n");
-        return EXIT_FAILURE;
-    }
-
-    if (initRandomizer)
-        srand((unsigned)time(NULL));
-
-    int i;
-    for(i=1; i<=countNumbers; i++)
-    {
-        int randNum = rand() % numberRange;
-
-        if (writeBinary)
-            fwrite(&randNum, sizeof(int), 1, fp);
-        else
-            fprintf(fp, "%i\n", randNum);
-    }
-    fclose(fp);
-
-    return EXIT_SUCCESS;
-}
-
-// Ausgabe der Fehlermeldung auf stdout bei Fehlerhaften Parametern
-void printErrorOnStdOut(void)
-{
-    printf("Eingabefehler!\nBitte ueberpruefen Sie die Parameterangaben!\n");
-}
+void printHelp(char * path); //Ausgabe der Hilfe bzw. Verwendung auf stdout
+int createRandomNumberFile(char * filename, int countNumbers, int numberRange, bool initRandomizer, bool writeBinary); //Methode erstellt Ausgabedatei
+void printErrorOnStdOut(void);// Ausgabe der Fehlermeldung auf stdout bei Fehlerhaften Parametern
 
 int main(int argc, char *argv[], char ** envp)
 {
@@ -178,6 +105,82 @@ int main(int argc, char *argv[], char ** envp)
 
     //Datei erstellen (wenn createRandomNumberFile nicht erfolgreich wird EXIT_FAILURE zurueck gegeben, sonst EXIT_SUCCESSFUL)
     return createRandomNumberFile(filename, countNumbers, numberRange, true, false);
+}
+
+/*
+    Ausgabe der Hilfe bzw. Verwendung auf stdout
+*/
+void printHelp(char * path)
+{
+    printf("Das Programm erzeugt eine Datei mit Zufallszahlen.\n");
+    printf("Aufruf: %s [-h] [-r <zahl>] [-n <zahl>] Dateiname\n", path);
+    printf("Bedeutung der Parameter:\n");
+    printf("\t-n [Anzahl der Zahlen] (Muss groesser 0 sein, Standard: 100), Beispiel: -r 50 (50 Zahlen werden geschrieben)\n");
+    printf("\t-r [Zahlenbereich] (Muss groesser 0 sein, Standard: 100), Beispiel: -n 200 (Zahlen von 0 bis 200)\n");
+    printf("\t-h Gibt diese Hilfe aus\n");
+    printf("\tDateiname: Name der Datei, in welche die Daten geschrieben werden\n");
+    printf("\tACHTUNG: Dateiname muss als letzter Parameter gesetzt sein\n");
+}
+
+/*
+    Erstellt eine Datei mit Zufallszahlen
+    Parameter:
+        - [filename]: Dateiname fuer die Datei, in welche die Werte gespeichert werden
+        - [countNumbers]: Anzahl von Zufallszahlen, welche in die Datei geschrieben werden
+        - [numberRange]: Zahlenbereich fuer die Zufallszahlen (von 0 bis numberRange)
+        - [initRandomizer]: TRUE fuehrt zu einem Initialisieren der Zufallszahl, FALSE liefert fuer jeden Aufruf die selben Zahlen
+        - [writeBinary]: TRUE bedeutet, dass die Ausgabedatei als Binaerdatei gespeichert wird. Bei FALSE erfolgt die Speicherung als plain-text
+    Rueckgabewerte:
+        - EXIT_SUCCESS: Die Methode wurde erfolgreich ausgefuehrt
+        - EXIT_FAILURE: Die Methode wurde nicht erfolgreich ausgefuehrt. Fehlermeldungen erfolgen ueber printf()
+*/
+int createRandomNumberFile(char * filename, int countNumbers, int numberRange, bool initRandomizer, bool writeBinary)
+{
+
+    if (countNumbers < 1)
+    {
+        printf("Fehler: es wurden weniger als 1 Zahl angegeben!\n");
+        return EXIT_FAILURE;
+    }
+
+    if (numberRange < 1)
+    {
+        printf("Fehler: der Zahlenbereich ist kleiner als 1!\n");
+        return EXIT_FAILURE;
+    }
+
+    FILE *fp;
+
+    fp = fopen(filename, "w");
+
+    if(fp == NULL)
+    {
+        printf("Fehler: Datei konnte nicht geoeffnet werden.\n");
+        return EXIT_FAILURE;
+    }
+
+    if (initRandomizer)
+        srand((unsigned)time(NULL));
+
+    int i;
+    for(i=1; i<=countNumbers; i++)
+    {
+        int randNum = rand() % numberRange;
+
+        if (writeBinary)
+            fwrite(&randNum, sizeof(int), 1, fp);
+        else
+            fprintf(fp, "%i\n", randNum);
+    }
+    fclose(fp);
+
+    return EXIT_SUCCESS;
+}
+
+// Ausgabe der Fehlermeldung auf stdout bei Fehlerhaften Parametern
+void printErrorOnStdOut(void)
+{
+    printf("Eingabefehler!\nBitte ueberpruefen Sie die Parameterangaben!\n");
 }
 
 //Programm Ende

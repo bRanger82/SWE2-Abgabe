@@ -20,57 +20,13 @@
 #include <stdbool.h>
 
 #define MAX_LINE_SIZE 300
-void selectionSortArray(int numbers [], int length, bool sortAsc);
-void printArrayOnStdOut(int numbers [], int length);
+void selectionSortArray(int numbers [], int length, bool sortAsc); //Sortiert Array Methode (Selection-Sort)
+void printArrayOnStdOut(int numbers [], int length); //Ausgabe Array auf stdout
+void printHelp(char * path); //Ausgabe der Hilfe bzw. Verwendung auf stdout
+void printErrorOnStdOut(void); // Ausgabe der Fehlermeldung auf stdout bei Fehlerhaften Parametern
+int readRandomNumberFile(char * filename, bool sortAsc); //Liest Werte aus einer plain-text Datei in einem Array ein und gibt diese Sortert aus stdout aus
 
-void printHelp(char * path)
-{
-    printf("%s [Option] FILE\n", path);
-    printf("Sortiert vorzeichenlose 32Bit-Integer.\n");
-    printf("\n");
-    printf("Option\tBeschreibung\n");
-    printf("-h    \tGibt eine kurze Beschreibung der Optionen aus.\n");
-    printf("-a    \tSortiert aufsteigend (default)\n");
-    printf("-d    \tSortiert absteigend\n");
-}
 
-void printErrorOnStdOut(void)
-{
-    printf("Eingabefehler!\nBitte ueberpruefen Sie die Parameterangaben!\n");
-}
-
-int createRandomNumberFile(char * filename, bool sortAsc)
-{
-    FILE *fp;
-
-    fp = fopen(filename, "r");
-
-    if(fp == NULL)
-    {
-        printf("Fehler: Datei konnte nicht geoeffnet werden.\n");
-        return EXIT_FAILURE;
-    }
-
-    int pos = 1;
-    int * values = malloc(sizeof(int) * pos);
-    char * line[MAX_LINE_SIZE];
-
-    while (fgets(*line, MAX_LINE_SIZE, fp) != NULL)
-    {
-        values = realloc(values, sizeof(int) * pos);
-        *(values+(pos-1)) = atoi(*line);
-        pos++;
-    }
-
-    fclose(fp);
-
-    selectionSortArray(values, pos-1, sortAsc);
-    printArrayOnStdOut(values, pos-1);
-
-    free(values);
-
-    return EXIT_SUCCESS;
-}
 
 int main(int argc, char *argv[], char ** envp)
 {
@@ -78,6 +34,7 @@ int main(int argc, char *argv[], char ** envp)
     bool sortAscending = true;
     char * filename = NULL;
 
+    //Minimale Anzahl Parameter pruefen
     if (argc < 2)
     {
         printErrorOnStdOut();
@@ -85,6 +42,7 @@ int main(int argc, char *argv[], char ** envp)
         return EXIT_FAILURE;
     }
 
+    //Parameter einlesen
     while(NULL != argv[i])
     {
         if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-H") == 0)
@@ -104,15 +62,79 @@ int main(int argc, char *argv[], char ** envp)
         }
         i++;
     }
-
+    //Pruefung ob Dateiname als Parameter gesetzt wurde
     if (NULL == filename)
     {
         printErrorOnStdOut();
         printHelp(argv[0]);
         return EXIT_FAILURE;
     }
-    createRandomNumberFile(filename, sortAscending);
-    return 0;
+
+    //Datei lesen und Ausgabe auf stdout
+    return readRandomNumberFile(filename, sortAscending);;
+}
+
+// Ausgabe der Fehlermeldung auf stdout bei Fehlerhaften Parametern
+void printErrorOnStdOut(void)
+{
+    printf("Eingabefehler!\nBitte ueberpruefen Sie die Parameterangaben!\n");
+}
+
+/*
+    Methode liest Werte aus Datei ein und gibt diese sortiert auf stdout aus
+    Parameter:
+    -   [filename]: Dateiname der Datei welche die Zahlenwerte enthaelt
+    -   [sortAsc]:  WAHR wenn aufsteigend sortiert werden soll oder FALSE wenn absteigend sortiert werden soll
+    Rueckgabewert:
+        EXIT_SUCCESS: Ausfuehren war erfolgreich
+        EXIT_FAILURE: Ausfuehren war nicht erfolgreich (Fehlermeldungen werden auf stdout ausgegeben)
+*/
+int readRandomNumberFile(char * filename, bool sortAsc)
+{
+    FILE *fp;
+
+    fp = fopen(filename, "r");
+
+    if(fp == NULL)
+    {
+        printf("Fehler: Datei konnte nicht geoeffnet werden.\n");
+        return EXIT_FAILURE;
+    }
+
+    int pos = 1;
+    int * values = malloc(sizeof(int) * pos);
+    char * line[MAX_LINE_SIZE];
+    //Solgane neue Zeile vorhanden ist values Array vergroessern und Wert in Array ablegen
+    while (fgets(*line, MAX_LINE_SIZE, fp) != NULL)
+    {
+        values = realloc(values, sizeof(int) * pos);
+        *(values+(pos-1)) = atoi(*line);
+        pos++;
+    }
+    //Datei-Stream schliessen
+    fclose(fp);
+
+    //Sortieren des Arrays
+    selectionSortArray(values, pos-1, sortAsc);
+    //Ausgabe Array auf stdout
+    printArrayOnStdOut(values, pos-1);
+
+    //Reservierten Speicher wieder freigeben
+    free(values);
+
+    return EXIT_SUCCESS;
+}
+
+//Ausgabe der Hilfe bzw. Verwendung auf stdout
+void printHelp(char * path)
+{
+    printf("%s [Option] FILE\n", path);
+    printf("Sortiert vorzeichenlose 32Bit-Integer.\n");
+    printf("\n");
+    printf("Option\tBeschreibung\n");
+    printf("-h    \tGibt eine kurze Beschreibung der Optionen aus.\n");
+    printf("-a    \tSortiert aufsteigend (default)\n");
+    printf("-d    \tSortiert absteigend\n");
 }
 
 /*

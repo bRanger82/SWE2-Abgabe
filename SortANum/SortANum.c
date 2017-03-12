@@ -19,44 +19,42 @@
 #include <string.h>
 
 
-void selectionSortArray(int numbers [], int length, bool sortAsc);
-void printArrayOnStdOut(int numbers [], int length);
-char *basename(char *path);
+void selectionSortArray(int numbers [], int length, bool sortAsc); //Sortiert Array Methode (Selection-Sort)
+void printArrayOnStdOut(int numbers [], int length); //Ausgabe Array auf stdout
 
 int main(int argc, char * argv[])
 {
+    //Speicherbereich fuer Array reservieren
     int * values = malloc(sizeof(int) * argc - 1);
+    // Speicher konnte nicht reserviert werden
     if (NULL == values)
     {
         printf("Fehler: Speicher konnte nicht allokiert werden!\n");
         return EXIT_FAILURE;
     }
+    //Anzahl der Parameter ist 1 -> es wurden keine Werte angegeben -> Hilfe anzeigen
     if (argc == 1)
     {
-        printf("Aufruf:\t%s N1 [N2 N3 ...]\n", basename(argv[0]));
+        printf("Aufruf:\t%s N1 [N2 N3 ...]\n", argv[0]);
         printf("       \tSortiert vorzeichenlose 32bit-Integer.\n");
         return EXIT_FAILURE;
     } else if (argc > 1)
     {
+        //Werte der Parameter in Array ablegen
         for(int pos=1;pos<argc;pos++)
         {
             *(values+pos-1) = atoi(argv[pos]);
         }
+        //Array sortieren
         selectionSortArray(values, argc-1, true);
+        //Array auf stdout ausgeben
         printArrayOnStdOut(values, argc-1);
     }
+    //Speicherbereich wieder freigegeben
     free(values);
     return EXIT_SUCCESS;
 }
 
-char *basename(char *path)
-{
-    char *s = strrchr(path, '\\');
-    if (!s)
-        return strdup(path);
-    else
-        return strdup(s + 1);
-}
 
 /*
     Sortiert einen Array entweder aufsteigend (sortAsc = true) oder absteigend (sortAsc = false)
