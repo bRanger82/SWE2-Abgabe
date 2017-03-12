@@ -19,9 +19,12 @@
 #include <string.h>
 #include <stdbool.h>
 
-const int defaultCountNumbers = 100;
-const int defaultNumberRange = 100;
+const int defaultCountNumbers = 100; // Standard-Anzahl Ausgabe Nummern
+const int defaultNumberRange = 100;  // Standard-Zahlenbereich (0 bis 100)
 
+/*
+    Ausgabe der Hilfe bzw. Verwendung auf stdout
+*/
 void printHelp(char * path)
 {
     printf("Das Programm erzeugt eine Datei mit Zufallszahlen.\n");
@@ -34,8 +37,33 @@ void printHelp(char * path)
     printf("\tACHTUNG: Dateiname muss als letzter Parameter gesetzt sein\n");
 }
 
+/*
+    Erstellt eine Datei mit Zufallszahlen
+    Parameter:
+        - [filename]: Dateiname fuer die Datei, in welche die Werte gespeichert werden
+        - [countNumbers]: Anzahl von Zufallszahlen, welche in die Datei geschrieben werden
+        - [numberRange]: Zahlenbereich fuer die Zufallszahlen (von 0 bis numberRange)
+        - [initRandomizer]: TRUE fuehrt zu einem Initialisieren der Zufallszahl, FALSE liefert fuer jeden Aufruf die selben Zahlen
+        - [writeBinary]: TRUE bedeutet, dass die Ausgabedatei als Binaerdatei gespeichert wird. Bei FALSE erfolgt die Speicherung als plain-text
+    Rueckgabewerte:
+        - EXIT_SUCCESS: Die Methode wurde erfolgreich ausgefuehrt
+        - EXIT_FAILURE: Die Methode wurde nicht erfolgreich ausgefuehrt. Fehlermeldungen erfolgen ueber printf()
+*/
 int createRandomNumberFile(char * filename, int countNumbers, int numberRange, bool initRandomizer, bool writeBinary)
 {
+
+    if (countNumbers < 1)
+    {
+        printf("Fehler: es wurden weniger als 1 Zahl angegeben!\n");
+        return EXIT_FAILURE;
+    }
+
+    if (numberRange < 1)
+    {
+        printf("Fehler: der Zahlenbereich ist kleiner als 1!\n");
+        return EXIT_FAILURE;
+    }
+
     FILE *fp;
 
     fp = fopen(filename, "w");
@@ -64,17 +92,21 @@ int createRandomNumberFile(char * filename, int countNumbers, int numberRange, b
     return EXIT_SUCCESS;
 }
 
+// Ausgabe der Fehlermeldung auf stdout bei Fehlerhaften Parametern
 void printErrorOnStdOut(void)
 {
     printf("Eingabefehler!\nBitte ueberpruefen Sie die Parameterangaben!\n");
 }
 
-int main(int argc, char *argv[], char ** envp) {
-    int i = 0;
-    int countNumbers = defaultCountNumbers;
-    int numberRange = defaultNumberRange;
-    bool errorEingabe = false;
-    char * filename = NULL;
+int main(int argc, char *argv[], char ** envp)
+{
+    int i = 0; //Fuer das Durchlaufen der Parameter (argv)
+    int countNumbers = defaultCountNumbers; //Anzahl der Zufallszahlen
+    int numberRange = defaultNumberRange; //Bereich der Zufallszahlen
+    bool errorEingabe = false; //Pruefvariable ob Fehler bei Parameter-Eingabe
+    char * filename = NULL; // Dateiname fuer die Ausgabedatei
+
+    //Erwartete Anzahl Parameter muss mindestens 2 sein
     if (argc < 2)
     {
         printErrorOnStdOut();
@@ -82,6 +114,7 @@ int main(int argc, char *argv[], char ** envp) {
         return EXIT_FAILURE;
     }
 
+    //Lese Parameter und pruefe, welche Werte gesetzt wurden
     while(NULL != argv[i])
     {
         if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-H") == 0)
@@ -103,6 +136,11 @@ int main(int argc, char *argv[], char ** envp) {
                 errorEingabe = true;
         } else if (strcmp(argv[i], "-r") == 0 || strcmp(argv[i], "-R") == 0)
         {
+            // argv[x] argv[x+1] ...
+            // -r      2
+            // Wenn Parameter argv[x] -r gesetzt hat
+            // ist  Parameter argv[x+1] der zugehoerige Wert zu Parameter -r
+            // daraufhin kann der naechste Wert fuer 'i' (x+1) uebersprungen werden
             if (argc > i)
                 if (atoi(argv[i+1]) > 0)
                 {
@@ -115,10 +153,12 @@ int main(int argc, char *argv[], char ** envp) {
             else
                 errorEingabe = true;
         }
+        //Dateiname muss als letzter Parameter-Wert gesetzt sein
         if ((argc - 1) == i)
         {
             filename = argv[i];
         }
+        //Bei fehlerhafter Parameter-Eingabe Ausgabe der Fehlermeldung auf stdout und Abbruch
         if (errorEingabe)
         {
             printErrorOnStdOut();
@@ -127,6 +167,8 @@ int main(int argc, char *argv[], char ** envp) {
         }
         i++;
     }
+
+    //Pruefung, ob Dateiname gesetzt wurde. Wenn nicht Fehlermeldung anzeigen und Programm abbrechen
     if (NULL == filename)
     {
         printErrorOnStdOut();
@@ -134,5 +176,8 @@ int main(int argc, char *argv[], char ** envp) {
         return EXIT_FAILURE;
     }
 
+    //Datei erstellen (wenn createRandomNumberFile nicht erfolgreich wird EXIT_FAILURE zurueck gegeben, sonst EXIT_SUCCESSFUL)
     return createRandomNumberFile(filename, countNumbers, numberRange, true, false);
 }
+
+//Programm Ende
