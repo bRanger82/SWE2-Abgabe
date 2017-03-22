@@ -60,6 +60,23 @@ void parseInput(void)
     }
     free(p);
 }
+char* getSubString(char* inputString, char* subString,
+    int index, int subStringLength){
+    int counter, inputStringLength = strlen(inputString);
+    /* Input validation
+     * range of sub-string must be in [0, strlen(inputString)]
+     */
+    if(index < 0 || index > inputStringLength ||
+          (index + subStringLength) > inputStringLength){
+        printf("Invalid Input");
+        return NULL;
+    }
+    for(counter = 0; counter < subStringLength; counter++){
+        subString[counter] = inputString[index++];
+    }
+    subString[counter] = '\0';
+    return subString;
+}
 
 
 void testRead(char * adressentxt)
@@ -95,21 +112,23 @@ void testRead(char * adressentxt)
     {
         fscanf(fp, "%s", (p+i)->vname);
         fscanf(fp, "%s", (p+i)->nname);
+        char * x[50];
+        fscanf(fp, "%s", x);
+        (p+i)->PLZ = atol(x);
+        fscanf(fp, "%s", (p+i)->ort);
         char * c[50];
         fscanf(fp, "%s", c);
-        (p+i)->PLZ = atol(c);
-        fscanf(fp, "%s", (p+i)->ort);
-        fscanf(fp, "%s", c);
-        char * dd [3];
-        char * mm [3];
-        char * yy [5];
-        strncpy(dd, c, 2);
-        strncpy(mm, c+3, 2);
-        strncpy(yy, c+5, 2);
-        printf("DAteTime: %s%s%s\n", dd, mm, yy);
+        printf("Got something: %s\n", c);
+        char * dd[2];
+        getSubString(c, dd, 0, 2);
+        char * mm[2];
+        getSubString(c, mm, 3, 2);
+        char * yy[4];
+        getSubString(c, yy, 6, 4);
+        printf("dd = %d %d %d\n", atoi(dd), atoi(mm), atoi(yy));
         printf("vname: %s\n", (p+i)->vname);
         printf("nname: %s\n", (p+i)->nname);
-        printf("PLZ:   %ld\n", (p+i)->PLZ);
+        printf("PLZ:   %ld\n",(p+i)->PLZ);
         printf("Ort:   %s\n", (p+i)->ort);
     }
     fclose(fp);
@@ -122,7 +141,7 @@ void testRead(char * adressentxt)
 
 int main(int argc, char * argv[])
 {
-    testRead("/home/pi/Documents/SWE2-Abgabe/adressen/adressen.txt");
+    testRead("C:\\Temp\\adresse.txt");
     return EXIT_SUCCESS;
 
 
