@@ -18,6 +18,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+void selSortOne(void * base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
+int compare(const void *a, const void *b);
 
 void selectionSortArray(int numbers [], int length, bool sortAsc); //Sortiert Array Methode (Selection-Sort)
 void printArrayOnStdOut(int numbers [], int length); //Ausgabe Array auf stdout
@@ -37,22 +39,39 @@ int main(int argc, char * argv[])
     {
         printf("Aufruf:\t%s N1 [N2 N3 ...]\n", argv[0]);
         printf("       \tSortiert vorzeichenlose 32bit-Integer.\n");
+        free(values);
         return EXIT_FAILURE;
     } else if (argc > 1)
     {
         //Werte der Parameter in Array ablegen
-        for(int pos=1;pos<argc;pos++)
+        int pos;
+        for(pos=1;pos<argc;pos++)
         {
             *(values+pos-1) = atoi(argv[pos]);
         }
         //Array sortieren
-        selectionSortArray(values, argc-1, true);
+        //selectionSortArray(values, argc-1, true);
+        qsort(values, argc-1, sizeof(int), compare);
         //Array auf stdout ausgeben
         printArrayOnStdOut(values, argc-1);
     }
     //Speicherbereich wieder freigegeben
     free(values);
     return EXIT_SUCCESS;
+}
+
+void selSortOne(void * base, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+    size_t pos;
+    for(pos=0;pos<nmemb;pos++)
+    {
+        //printf("%d\n", *(base+pos));
+    }
+}
+
+int compare(const void *a, const void *b)
+{
+  return (* (int *) a - * (int *) b);
 }
 
 
