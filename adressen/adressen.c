@@ -32,7 +32,7 @@ void suche_name(TADRESS* p, int anzahl, char *name);
 // Sortiert alle Adressen nach Namen und durchse diese
 
 char * executableFileName;
-char * monat[12] = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dez"};
+const char * monat[12] = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dez"};
 
 TDATUM mache_date(int t, int m, int j)
 {
@@ -40,7 +40,7 @@ TDATUM mache_date(int t, int m, int j)
     rueckwert.jahr = j;
     rueckwert.monat = m;
     rueckwert.tag = t;
-    strcpy(rueckwert.mon_name, monat[5]);
+    strcpy(rueckwert.mon_name, monat[m-1]);
     return rueckwert;
 }
 
@@ -111,10 +111,13 @@ void testRead(char * adressentxt)
         char yy[4];
         getSubString(c, yy, 6, 4);
         (p+i)->geburtsjahr = mache_date(atoi(dd), atoi(mm), atoi(yy));
+
         printf("vname: %s\n", (p+i)->vname);
         printf("nname: %s\n", (p+i)->nname);
         printf("PLZ:   %ld\n",(p+i)->PLZ);
         printf("Ort:   %s\n", (p+i)->ort);
+        TDATUM u = (p+i)->geburtsjahr;
+        printf("Geburtsdaten: %d.%d.%d %s\n", u.tag, u.monat, u.jahr, u.mon_name);
     }
     fclose(fp);
     free(p);
