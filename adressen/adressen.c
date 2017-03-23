@@ -32,49 +32,35 @@ void suche_name(TADRESS* p, int anzahl, char *name);
 // Sortiert alle Adressen nach Namen und durchse diese
 
 char * executableFileName;
+char * monat[12] = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dez"};
 
-
-void parseInput(void)
+TDATUM mache_date(int t, int m, int j)
 {
-    FILE *fp;
-    TADRESS *p;
-    int anz = 10;
-    p = malloc(10* sizeof(TADRESS));
-    if (NULL == p)
-    {
-        printf("Fehler: Speicher konnte nicht reserviert werden!\n");
-        return;
-    }
-    int i;
-    for (i = 0;i<anz; i++)
-    {
-        fscanf(fp, "%s", (p+i)->vname);
-        fscanf(fp, "%s", (p+i)->nname);
-        char * PLZ[50];
-        fscanf(fp, "%s", *PLZ);
-        fscanf(fp, "%s", (p+i)->ort);
-        printf("%s\n", (p+i)->vname);
-        printf("%s\n", (p+i)->nname);
-        printf("%s\n", (p+i)->PLZ);
-        printf("%s\n", (p+i)->ort);
-    }
-    free(p);
+    TDATUM rueckwert;
+    rueckwert.jahr = j;
+    rueckwert.monat = m;
+    rueckwert.tag = t;
+    strcpy(rueckwert.mon_name, monat[5]);
+    return rueckwert;
 }
-char* getSubString(char* inputString, char* subString,
-    int index, int subStringLength){
+
+
+char* getSubString(char* inputString, char* subString, int index, int subStringLength)
+{
     int counter, inputStringLength = strlen(inputString);
-    /* Input validation
-     * range of sub-string must be in [0, strlen(inputString)]
-     */
+
     if(index < 0 || index > inputStringLength ||
           (index + subStringLength) > inputStringLength){
         printf("Invalid Input");
         return NULL;
     }
+
     for(counter = 0; counter < subStringLength; counter++){
         subString[counter] = inputString[index++];
     }
+
     subString[counter] = '\0';
+
     return subString;
 }
 
@@ -92,7 +78,7 @@ void testRead(char * adressentxt)
     }
 
     printf("Filename: %s\n", adressentxt);
-    char * cAnzahl[100];
+    char cAnzahl[100];
 
     fgets(cAnzahl, len, fp);
     //fscanf(fp, "%s", *cAnzahl);
@@ -112,20 +98,19 @@ void testRead(char * adressentxt)
     {
         fscanf(fp, "%s", (p+i)->vname);
         fscanf(fp, "%s", (p+i)->nname);
-        char * x[50];
+        char x[50];
         fscanf(fp, "%s", x);
         (p+i)->PLZ = atol(x);
         fscanf(fp, "%s", (p+i)->ort);
-        char * c[50];
+        char c[50];
         fscanf(fp, "%s", c);
-        printf("Got something: %s\n", c);
-        char * dd[2];
+        char dd[2];
         getSubString(c, dd, 0, 2);
-        char * mm[2];
+        char mm[2];
         getSubString(c, mm, 3, 2);
-        char * yy[4];
+        char yy[4];
         getSubString(c, yy, 6, 4);
-        printf("dd = %d %d %d\n", atoi(dd), atoi(mm), atoi(yy));
+        (p+i)->geburtsjahr = mache_date(atoi(dd), atoi(mm), atoi(yy));
         printf("vname: %s\n", (p+i)->vname);
         printf("nname: %s\n", (p+i)->nname);
         printf("PLZ:   %ld\n",(p+i)->PLZ);
@@ -141,7 +126,7 @@ void testRead(char * adressentxt)
 
 int main(int argc, char * argv[])
 {
-    testRead("C:\\Temp\\adresse.txt");
+    testRead("C:\\Temp\\adressen.txt");
     return EXIT_SUCCESS;
 
 
