@@ -129,6 +129,9 @@ void testRead(char * adressentxt)
 
 int main(int argc, char * argv[])
 {
+
+    executableFileName = argv[0];
+    help();
     testRead("C:\\Temp\\adressen.txt");
     return EXIT_SUCCESS;
 
@@ -136,8 +139,6 @@ int main(int argc, char * argv[])
 
     int i = 0;
     char * filename = NULL;
-    executableFileName = argv[0];
-
     //Minimale Anzahl Parameter pruefen
     if (argc < 2)
     {
@@ -180,11 +181,11 @@ int main(int argc, char * argv[])
 void help(void)
 {
     printf("%s [Option] File\n\n", executableFileName);
-    printf("Option\tBeschreibung\n");
-    printf("-h\tGibt eine kurze Beschreibung der Optionen aus.\n");
-    printf("-p\tAlle Adressen sollen ausgegeben werden.\n");
+    printf("Option     \tBeschreibung\n");
+    printf("-h         \tGibt eine kurze Beschreibung der Optionen aus.\n");
+    printf("-p         \tAlle Adressen sollen ausgegeben werden.\n");
     printf("-w filename\tEs sollen die Adressen in einem html-File abgelegt werden.\n");
-    printf("-s\tAlle Adressen sollen sortiert nach Namen ausgegeben werden.\n");
-    printf("-f muster\tSortiert alle Adressen nach Namen und suche nach Muster.\n");
+    printf("-s         \tAlle Adressen sollen sortiert nach Namen ausgegeben werden.\n");
+    printf("-f muster  \tSortiert alle Adressen nach Namen und suche nach Muster.\n");
 }
 
