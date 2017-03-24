@@ -45,7 +45,7 @@ TDATUM mache_date(int t, int m, int j)
 }
 
 
-char* getSubString(char* inputString, char* subString, int index, int subStringLength)
+char* getSubString(const char* inputString, char* subString, int index, int subStringLength)
 {
     int counter, inputStringLength = strlen(inputString);
 
@@ -65,9 +65,9 @@ char* getSubString(char* inputString, char* subString, int index, int subStringL
 }
 
 
-void testRead(char * adressentxt)
+void testRead(char * dateiname)
 {
-    FILE *fp = fopen(adressentxt, "r");
+    FILE *fp = fopen(dateiname, "r");
 
     int len = 100;
 
@@ -77,7 +77,7 @@ void testRead(char * adressentxt)
         return;
     }
 
-    printf("Filename: %s\n", adressentxt);
+    printf("Filename: %s\n", dateiname);
     char cAnzahl[100];
 
     fgets(cAnzahl, len, fp);
@@ -98,18 +98,18 @@ void testRead(char * adressentxt)
     {
         fscanf(fp, "%s", (p+i)->vname);
         fscanf(fp, "%s", (p+i)->nname);
-        char x[50];
-        fscanf(fp, "%s", x);
-        (p+i)->PLZ = atol(x);
+        char plz[50];
+        fscanf(fp, "%s", plz);
+        (p+i)->PLZ = atol(plz);
         fscanf(fp, "%s", (p+i)->ort);
-        char c[50];
-        fscanf(fp, "%s", c);
-        char dd[2];
-        getSubString(c, dd, 0, 2);
-        char mm[2];
-        getSubString(c, mm, 3, 2);
-        char yy[4];
-        getSubString(c, yy, 6, 4);
+        char dateString[50];
+        fscanf(fp, "%s", dateString);
+        char dd[3];
+        getSubString(dateString, dd, 0, 2);
+        char mm[3];
+        getSubString(dateString, mm, 3, 2);
+        char yy[5];
+        getSubString(dateString, yy, 6, 4);
         (p+i)->geburtsjahr = mache_date(atoi(dd), atoi(mm), atoi(yy));
 
         printf("vname: %s\n", (p+i)->vname);
@@ -188,4 +188,3 @@ void help(void)
     printf("-s         \tAlle Adressen sollen sortiert nach Namen ausgegeben werden.\n");
     printf("-f muster  \tSortiert alle Adressen nach Namen und suche nach Muster.\n");
 }
-
