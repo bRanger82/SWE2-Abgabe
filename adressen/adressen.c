@@ -1,6 +1,22 @@
+/**
+ * file: adressen.c
+ *
+ * date: 2017-03-24
+ * progtimeest.: 60 min
+ * progtimereal: 60 min
+ * author: Michael Bieringer
+ * email: Michael.Bieringer@gmx.net
+ *
+ * Salzburg University of Applied Sciences
+ * Information Technology & Systems Management
+ * SWE2 2017 Uebung A.2
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 struct datum
 {
@@ -21,37 +37,39 @@ struct adres
 }; typedef struct adres TADRESS;
 
 
-void help(void);
-TDATUM mache_date(int t, int m, int j);
-TADRESS * einlesen(char * filename, int * anzahl);
-void ausgabe(TADRESS* p, int anzahl, char * filename);
-void ausgabe_html(TADRESS* p, int anzahl);
-void sort_name(TADRESS* p, int anzahl);
-// Sortiert alle Adressen nach Namen
-void suche_name(TADRESS* p, int anzahl, char *name);
-// Sortiert alle Adressen nach Namen und durchse diese
+void help(void); // Gibt einen Hilfetext auf stdout aus
+TDATUM mache_date(int t, int m, int j); // Erstellt ein TDATUM Objekt anhand der uebergebenen Werte
+TADRESS * einlesen(char * filename, int * anzahl); // Liest Daten aus einer Datei ein
+void ZeigeDatenAn(TADRESS * ta, int anzahl);  // Ausgbae der Adressdaten auf stdout
+void ausgabe(TADRESS* p, int anzahl, char * filename); // Ausgbae der Adressdaten in eine Datei
+void ausgabe_html(TADRESS* p, int anzahl, char * filename); // Erstellt eine HTML Datei mit den Adressdaten
+void sort_name(TADRESS* p, int anzahl); // Sortiert alle Adressen nach Namen
+void suche_name(TADRESS* p, int anzahl, char *name); // Sortiert alle Adressen nach Namen und durchse diese
+int compareName(const void *nameOne, const void *nameTwo); // Funktion fuer den Vergleich der Namen
 
-char * executableFileName;
+char * executableFileName; //Speichert den Pfad inklusive Dateinamen dieses Programms
+
+//Hilfs-Array fuer das Setzten des Monatsnamen
 const char * monat[12] = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dez"};
 
-TDATUM mache_date(int t, int m, int j)
-{
-    TDATUM rueckwert;
-    rueckwert.jahr = j;
-    rueckwert.monat = m;
-    rueckwert.tag = t;
-    strcpy(rueckwert.mon_name, monat[m-1]);
-    return rueckwert;
-}
-
-
+/*
+    Gibt einen Teil-String eines String zurueck
+    Parameter:
+        inputString: Eingabeparameter, kompletter String
+        subString: Ausgabeparameter, enthaelt den Teil-String
+        index: Eingabeparameter, definiert die Start-Position von der der inputString ausgelesen werden soll
+        subStringLength: Eingabeparameter, definiert die Laenge des inputString von Position index weg
+    Rueckgabewert:
+        subString
+*/
 char* getSubString(const char* inputString, char* subString, int index, int subStringLength)
 {
     int counter, inputStringLength = strlen(inputString);
 
+    //Pruefung der Laengen bzw. Positionen
     if(index < 0 || index > inputStringLength ||
           (index + subStringLength) > inputStringLength){
-        printf("Invalid Input");
+        printf("Fehler: Teil-String konnte nicht verarbeitet werden!");
         return NULL;
     }
 
@@ -64,37 +82,194 @@ char* getSubString(const char* inputString, char* subString, int index, int subS
     return subString;
 }
 
-
-void testRead(char * dateiname)
+int main(int argc, char * argv[])
 {
-    FILE *fp = fopen(dateiname, "r");
+
+    executableFileName = argv[0];
+
+    int i = 0;
+    char * filename = NULL;
+    char * htmlFilename = NULL;
+    char * suchMuster = NULL;
+    bool showAllAdresses = false;
+    bool sortAdresses = false;
+    bool errorCommandline = false;
+    //Parameter einlesen
+    while(NULL != argv[i])
+    {
+        if (strcmp(argv[i], "-h") == 0)
+        {
+            help();
+            return EXIT_SUCCESS;
+        } else if (strcmp(argv[i], "-p") == 0)
+        {
+            showAllAdresses = true;
+        } else if (strcmp(argv[i], "-s") == 0)
+        {
+            sortAdresses = true;
+            showAllAdresses = true;
+        } else if ((argc - 1) == i)
+        {
+            filename = argv[i];
+        } else if (strcmp(argv[i], "-w") == 0)
+        {
+            if (argc < (i+1))
+            {
+                errorCommandline = true;
+                break;
+            }
+            htmlFilename = argv[++i];
+        } else if (strcmp(argv[i], "-f") == 0)
+        {
+            if (argc < (i+1))
+            {
+                errorCommandline = true;
+                break;
+            }
+            suchMuster = argv[++i];
+        }
+        i++;
+    }
+
+    if (errorCommandline || argc < 2)
+    {
+         printf("Fehler: die Parameter konnten nicht verarbeitet werden.\n");
+         printf("        Bitte rufen Sie das Programm mit dem Parameter -h auf\n");
+         printf("        um eine Auflistung aller moeglichen Parameter zu erhalten.\n");
+         return EXIT_FAILURE;
+    }
+
+    //Pruefung ob Dateiname als Parameter gesetzt wurde
+    if (NULL == filename)
+    {
+        printf("Fehler: Es wurde kein Dateiname angegeben!\n\n");
+        return EXIT_FAILURE;
+    }
+
+    int anzahlDatensaetze = 0;
+    TADRESS * adressen = einlesen(filename, &anzahlDatensaetze);
+
+    if (NULL == adressen)
+    {
+        printf("Ein Fehler ist aufgetreten!\n\n");
+        return EXIT_FAILURE;
+    }
+
+    if (sortAdresses)
+    {
+        sort_name(adressen, anzahlDatensaetze);
+    }
+
+    if (showAllAdresses)
+    {
+        ZeigeDatenAn(adressen, anzahlDatensaetze);
+    }
+
+    if (NULL != htmlFilename)
+    {
+        ausgabe_html(adressen, anzahlDatensaetze, htmlFilename);
+    }
+
+    if (NULL != suchMuster)
+    {
+        suche_name(adressen, anzahlDatensaetze, suchMuster);
+    }
+
+    //Speicher wieder freigeben
+    free(adressen);
+
+    return EXIT_SUCCESS;
+}
+
+void suche_name(TADRESS* p, int anzahl, char *name)
+{
+    sort_name(p, anzahl);
+    TADRESS * foundItems = NULL;
+    foundItems = (TADRESS*) bsearch(name, p, anzahl, sizeof(TADRESS), compareName);
+    if (NULL == foundItems)
+    {
+        printf("Es konnte kein Eintrag zu dem Namen '%s' gefunden werden\n", name);
+        return;
+    } else
+    {
+        ZeigeDatenAn(foundItems, 1);
+    }
+}
+
+void ausgabe_html(TADRESS* p, int anzahl, char * filename)
+{
+    FILE * fp = fopen(filename, "w");
+    if (NULL == fp)
+    {
+        printf("Fehler: HTML Datei konnte nicht gespeichert werden!\n");
+        return;
+    }
+
+    fprintf(fp, "<html>\n");
+    fprintf(fp, "<head>\n");
+    fprintf(fp, "Ausgabe der Adressen in HTML Form</br>\n");
+    fprintf(fp, "</head>\n");
+    fprintf(fp, "<body>\n");
+    int pos;
+    for (pos=0;pos<anzahl;pos++)
+    {
+        fprintf(fp, "Datensatz %d</br>\n", pos+1);
+        fprintf(fp, "&emsp; Vorname:      %s</br>\n", (p+pos)->vname);
+        fprintf(fp, "&emsp; Nachname:     %s</br>\n", (p+pos)->nname);
+        fprintf(fp, "&emsp; PLZ:          %ld</br>\n",(p+pos)->PLZ);
+        fprintf(fp, "&emsp; Ort:          %s</br>\n", (p+pos)->ort);
+        TDATUM u = (p+pos)->geburtsjahr;
+        fprintf(fp, "&emsp; Geburtsdatum: %d.%d.%d</br>\n", u.tag, u.monat, u.jahr);
+        fprintf(fp, "&emsp; Geburtsmonat: %s</br>\n", u.mon_name);
+        fprintf(fp, "</br>");
+    }
+    fprintf(fp, "</body>\n");
+    fprintf(fp, "</html>\n");
+    fclose(fp);
+}
+
+void ZeigeDatenAn(TADRESS * ta, int anzahl)
+{
+    int pos;
+    for(pos=0;pos<anzahl;pos++)
+    {
+        printf("Datensatz %d:\n", pos+1);
+        printf("\tVorname:      %s\n", (ta+pos)->vname);
+        printf("\tNachname:     %s\n", (ta+pos)->nname);
+        printf("\tPLZ:          %ld\n",(ta+pos)->PLZ);
+        printf("\tOrt:          %s\n", (ta+pos)->ort);
+        TDATUM u = (ta+pos)->geburtsjahr;
+        printf("\tGeburtsdatum: %d.%d.%d\n", u.tag, u.monat, u.jahr);
+        printf("\tGeburtsmonat: %s\n", u.mon_name);
+    }
+}
+
+
+TADRESS * einlesen(char * filename, int * anzahl)
+{
+    FILE *fp = fopen(filename, "r");
 
     int len = 100;
 
     if (NULL == fp)
     {
-        printf("Error: Filehandle is NULL!\n");
-        return;
+        printf("Fehler: Datei konnte nicht geladen werden!\n");
+        return NULL;
     }
-
-    printf("Filename: %s\n", dateiname);
     char cAnzahl[100];
 
     fgets(cAnzahl, len, fp);
-    //fscanf(fp, "%s", *cAnzahl);
-
-    printf("Wert von cAnzahl: %s\n", cAnzahl);
-    int iAnzahl = atoi(cAnzahl);
+    *anzahl = atoi(cAnzahl);
     TADRESS *p;
-    p = malloc(iAnzahl * sizeof(TADRESS));
+    p = malloc(*anzahl * sizeof(TADRESS));
     if (NULL == p)
     {
         printf("Fehler: Speicher konnte nicht reserviert werden!\n");
         fclose(fp);
-        return;
+        return NULL;
     }
     int i;
-    for (i = 0;i<iAnzahl; i++)
+    for (i = 0;i<*anzahl; i++)
     {
         fscanf(fp, "%s", (p+i)->vname);
         fscanf(fp, "%s", (p+i)->nname);
@@ -111,71 +286,31 @@ void testRead(char * dateiname)
         char yy[5];
         getSubString(dateString, yy, 6, 4);
         (p+i)->geburtsjahr = mache_date(atoi(dd), atoi(mm), atoi(yy));
-
-        printf("vname: %s\n", (p+i)->vname);
-        printf("nname: %s\n", (p+i)->nname);
-        printf("PLZ:   %ld\n",(p+i)->PLZ);
-        printf("Ort:   %s\n", (p+i)->ort);
-        TDATUM u = (p+i)->geburtsjahr;
-        printf("Geburtsdaten: %d.%d.%d %s\n", u.tag, u.monat, u.jahr, u.mon_name);
     }
     fclose(fp);
-    free(p);
-
-    return;
-
+    return p;
 }
 
-
-int main(int argc, char * argv[])
+int compareName(const void *nameOne, const void *nameTwo)
 {
+    TADRESS * eins = (TADRESS *)nameOne;
+    TADRESS * zwei = (TADRESS *)nameTwo;
+    return strcmp(eins->vname, zwei->vname);
+}
 
-    executableFileName = argv[0];
-    help();
-    testRead("C:\\Temp\\adressen.txt");
-    return EXIT_SUCCESS;
+void sort_name(TADRESS* p, int anzahl)
+{
+    qsort(p, anzahl, sizeof(TADRESS), compareName);
+}
 
-
-
-    int i = 0;
-    char * filename = NULL;
-    //Minimale Anzahl Parameter pruefen
-    if (argc < 2)
-    {
-        help();
-        return EXIT_FAILURE;
-    }
-
-    //Parameter einlesen
-    while(NULL != argv[i])
-    {
-        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-H") == 0)
-        {
-            help();
-            return EXIT_SUCCESS;
-        } else if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "-D") == 0)
-        {
-
-        } else if (strcmp(argv[i], "-a") == 0 || strcmp(argv[i], "-A") == 0)
-        {
-
-        }
-        if ((argc - 1) == i)
-        {
-            filename = argv[i];
-        }
-        i++;
-    }
-    //Pruefung ob Dateiname als Parameter gesetzt wurde
-    if (NULL == filename)
-    {
-        help();
-        return EXIT_FAILURE;
-    }
-
-    help();
-    printf("Hello world!\n");
-    return 0;
+TDATUM mache_date(int t, int m, int j)
+{
+    TDATUM rueckwert;
+    rueckwert.jahr = j;
+    rueckwert.monat = m;
+    rueckwert.tag = t;
+    strcpy(rueckwert.mon_name, monat[m-1]);
+    return rueckwert;
 }
 
 void help(void)
