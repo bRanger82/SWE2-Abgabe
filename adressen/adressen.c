@@ -88,30 +88,31 @@ int main(int argc, char * argv[])
     executableFileName = argv[0];
 
     int i = 0;
-    char * filename = NULL;
-    char * htmlFilename = NULL;
-    char * suchMuster = NULL;
-    bool showAllAdresses = false;
-    bool sortAdresses = false;
-    bool errorCommandline = false;
+    char * filename = NULL; // Dateiname fuer Adress-Daten Eingabe
+    char * htmlFilename = NULL; // HTML Ausgabe-Datei
+    char * suchMuster = NULL; // Such-Muster nach dem gesucht werden soll
+    bool showAllAdresses = false; // Option fuer das Anzeigen der Adresse gesetzt (true) oder nicht (false)
+    bool sortAdresses = false; // Adressen sortieren (true) oder gleich wie eingelesen belassen (false)
+    bool errorCommandline = false; // Fehler bei der Verarbeitung der Parameter (true) oder Eingabeparameter in Ordnung (false)
+
     //Parameter einlesen
     while(NULL != argv[i])
     {
-        if (strcmp(argv[i], "-h") == 0)
+        if (strcmp(argv[i], "-h") == 0) // Hilfe
         {
             help();
             return EXIT_SUCCESS;
-        } else if (strcmp(argv[i], "-p") == 0)
+        } else if (strcmp(argv[i], "-p") == 0) // Parameter fuer alle Adressen anzeigen
         {
             showAllAdresses = true;
-        } else if (strcmp(argv[i], "-s") == 0)
+        } else if (strcmp(argv[i], "-s") == 0) // Parameter fuer Sortieren und Adressen anzeigen
         {
             sortAdresses = true;
             showAllAdresses = true;
-        } else if ((argc - 1) == i)
+        } else if ((argc - 1) == i) //Dateiname gesetzt
         {
             filename = argv[i];
-        } else if (strcmp(argv[i], "-w") == 0)
+        } else if (strcmp(argv[i], "-w") == 0) // Parameter HTML Datei gesetzt
         {
             if (argc < (i+1))
             {
@@ -119,7 +120,7 @@ int main(int argc, char * argv[])
                 break;
             }
             htmlFilename = argv[++i];
-        } else if (strcmp(argv[i], "-f") == 0)
+        } else if (strcmp(argv[i], "-f") == 0) // Parameter Suche Name gesetzt
         {
             if (argc < (i+1))
             {
@@ -131,6 +132,7 @@ int main(int argc, char * argv[])
         i++;
     }
 
+    //Pruefung ob Parameter gesetzt wurden
     if (errorCommandline || argc < 2)
     {
          printf("Fehler: die Parameter konnten nicht verarbeitet werden.\n");
@@ -139,14 +141,16 @@ int main(int argc, char * argv[])
          return EXIT_FAILURE;
     }
 
-    //Pruefung ob Dateiname als Parameter gesetzt wurde
+    //Pruefung ob Dateiname (Eingabe) als Parameter gesetzt wurde
     if (NULL == filename)
     {
         printf("Fehler: Es wurde kein Dateiname angegeben!\n\n");
         return EXIT_FAILURE;
     }
 
-    int anzahlDatensaetze = 0;
+    int anzahlDatensaetze = 0; //Anzahl Datensaetze in der Eingabedatei initialisieren
+
+    //Datensaetze aus der Eingabe-Datei lesen
     TADRESS * adressen = einlesen(filename, &anzahlDatensaetze);
 
     if (NULL == adressen)
@@ -155,21 +159,25 @@ int main(int argc, char * argv[])
         return EXIT_FAILURE;
     }
 
+    // Wenn sortiert gesetzt ist muss vor allen anderen Schritten sortiert werden
     if (sortAdresses)
     {
         sort_name(adressen, anzahlDatensaetze);
     }
 
+    // Ausgabe auf stdout gesetzt
     if (showAllAdresses)
     {
         ZeigeDatenAn(adressen, anzahlDatensaetze);
     }
 
+    // HTML Dateiname gesetzt
     if (NULL != htmlFilename)
     {
         ausgabe_html(adressen, anzahlDatensaetze, htmlFilename);
     }
 
+    // Suche nach Name gesetzt
     if (NULL != suchMuster)
     {
         suche_name(adressen, anzahlDatensaetze, suchMuster);
