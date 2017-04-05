@@ -18,13 +18,16 @@
 
 int main(int argc, char *argv[], char * envp[])
 {
+    // Information ueber die Shell bei Programmstart ausgeben
     puts("Hello to the custom FHS Command Ghost in the Shell");
     puts("Created by Michael Bieringer 2017");
     puts("Professional Programmer");
     puts("Version 1.0");
 
+    // Puffer fuer die Eingabe
     char line[MAX_LENGTH];
 
+    // Verarbeitung der Shell, solange die Exit-Anweisung nicht zutrifft (break)
     while(true)
     {
         printf("fhss:>");
@@ -40,6 +43,7 @@ int main(int argc, char *argv[], char * envp[])
     return EXIT_SUCCESS;
 }
 
+// Gibt einen Hilfe-Text auf stdout aus
 void showHelp(void)
 {
     puts("Verfuegbare Kommandos:");
@@ -51,10 +55,22 @@ void showHelp(void)
     printf("\t%s      \tGibt das aktuelle Verzeichnis aus\n", cmdCurrDir);
 }
 
+/*
+    Verarbeiten der Benutzer-Eingabe
+    Parameter:
+    	- input: Eingabezeile 
+    Rueckgabewert:
+    	- (int) --> siehe RET_PARSE_CMD_*
+*/
 int parseInput(char * input)
 {
-    // Parse and execute command
+    // Befehlsargument
     char * cmd;
+
+    // Es soll der erste Wert aus der Eingabezeile bis zum Trennzeichen gelesen werden
+    // Bsp: zeigeEtwasAn [Wert von DELIMS] Parameter1 [Wert von DELIMS] Parameter2
+    //      ^--> cmd                       ^
+    //                                      --> naechster Wert strtok	...
     if ((cmd = strtok(input, DELIMS)))
     {
         if (strcmp(cmd, cmdExit) == 0)
