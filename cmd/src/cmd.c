@@ -67,7 +67,7 @@ int parseInput(char * input)
         } else if (strcmp(cmd, cmdFHSDate) == 0)
         {
             struct tm * timeinfo = getTimeInfo();
-            printf ( "Das aktuelle Datum ist: %d.%d.%d\n", timeinfo->tm_mday, timeinfo->tm_mon, (timeinfo->tm_year)+1900 );
+            printf ( "Das aktuelle Datum ist: %02d.%02d.%d\n", timeinfo->tm_mday, timeinfo->tm_mon, (timeinfo->tm_year)+1900 );
             return RET_PARSE_CMD_OK;
         } else if (strcmp(cmd, cmdFHSTime) == 0)
         {
@@ -85,12 +85,12 @@ int parseInput(char * input)
             chdir(arg);
             return RET_PARSE_CMD_OK;
         } else if (strcmp(cmd, cmdCurrDir) == 0)
-		{
-        	char cwd[1024];
-        	getcwd(cwd, sizeof(cwd));
-        	printf("%s\n", cwd);
-        	return RET_PARSE_CMD_OK;
-		} else
+	{
+            char cwd[1024];
+            getcwd(cwd, sizeof(cwd));
+            printf("%s\n", cwd);
+            return RET_PARSE_CMD_OK;
+	} else
         {
             //system(cmd);
             //return RET_PARSE_CMD_SYS;
