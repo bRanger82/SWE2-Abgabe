@@ -29,7 +29,7 @@
 	"Queue.h"
 	"SList.h"
 
-1492979540 source:c:\users\hase\fh\cprojekte\slist\main.c
+1492980547 source:c:\users\hase\fh\cprojekte\slist\main.c
 	<stdio.h>
 	<stdlib.h>
 	"SList.h"
@@ -40,13 +40,13 @@
 
 1491402238 c:\users\hase\fh\cprojekte\slist\slist.h
 
-1492978652 source:c:\users\hase\fh\cprojekte\slist\queue.c
+1492981114 source:c:\users\hase\fh\cprojekte\slist\queue.c
 	<stdio.h>
 	<stdlib.h>
 	"Queue.h"
 	"SList.h"
 
-1491406170 c:\users\hase\fh\cprojekte\slist\queue.h
+1492980937 c:\users\hase\fh\cprojekte\slist\queue.h
 	<stdbool.h>
 
 1492105904 source:c:\users\hase\fh\cprojekte\slist\slist.c
@@ -55,7 +55,7 @@
 	<stdbool.h>
 	"SList.h"
 
-1492979379 source:c:\users\hase\fh\cprojekte\slist\stack.c
+1492980580 source:c:\users\hase\fh\cprojekte\slist\stack.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

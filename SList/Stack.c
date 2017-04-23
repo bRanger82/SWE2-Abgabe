@@ -16,6 +16,9 @@ SLIST_HEADER * stackHead = NULL;
 */
 void * top()
 {
+    if (NULL == stackHead)
+        return NULL;
+
     if (0 == stackHead->Len)
         return NULL; //TODO
     SLIST * element = stackHead->Last;

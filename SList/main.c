@@ -12,6 +12,8 @@ void runDQueueTest(void);
 int selectAndRunTests(void);
 void checkQueueSize(void);
 void checkStackSize(void);
+void readNextValueStack(void);
+void readNextValueQueue(void);
 
 int main()
 {
@@ -46,6 +48,22 @@ int selectAndRunTests(void)
     return EXIT_SUCCESS;
 }
 
+void readNextValueStack(void)
+{
+    if (NULL != (int *) top())
+        printf("Stack, Lese Wert mittels pop(): %d\n", *(int *)pop());
+    else
+        printf("Stack, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
+}
+
+void readNextValueQueue(void)
+{
+    if (NULL != (int *) next())
+        printf("Queue, Lese Wert mittels get(): %d\n", *(int *)get());
+    else
+        printf("Queue, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
+}
+
 void runStackTest(void)
 {
     printf("********************************\n");
@@ -53,6 +71,8 @@ void runStackTest(void)
     printf("********************************\n");
 
     checkStackSize();
+    readNextValueStack();
+
     int i = 0;
     for (i=0; i<5; i++)
     {
@@ -62,10 +82,12 @@ void runStackTest(void)
         push(tmp);
     }
     checkStackSize();
-    printf("Stack, Lese Wert mittels get(): %d\n", *(int *)pop());
-    printf("Stack, Lese Wert mittels get(): %d\n", *(int *)pop());
-    printf("Stack, Lese Wert mittels get(): %d\n", *(int *)pop());
-    printf("Stack, Lese Wert mittels get(): %d\n", *(int *)pop());
+
+    readNextValueStack();
+    readNextValueStack();
+    readNextValueStack();
+    readNextValueStack();
+
 
     printf("Stack: Sdelete() wird ausgefuehrt\n");
     Sdelete();
@@ -82,7 +104,7 @@ void checkStackSize(void)
     if (0 == Slength())
         printf("Test Slength(): Stack hat die Laenge 0 oder ist nicht initialisiert!\n");
     else
-        printf("Test Slength(): Stack hat die Laenge %d\n", Qlength());
+        printf("Test Slength(): Stack hat die Laenge %d\n", Slength());
 
     if (Sempty())
         printf("Test Sempty():  Stack ist leer oder nicht initialisiert!\n");
@@ -110,6 +132,7 @@ void runQueueTest(void)
     printf("********************************\n");
 
     checkQueueSize();
+    readNextValueQueue();
 
     int i = 0;
     for (i=0; i<5; i++)
@@ -121,12 +144,10 @@ void runQueueTest(void)
     }
 
     checkQueueSize();
-
-    printf("Queue, Lese Wert mittels get(): %d\n", *(int *)get());
-    printf("Queue, Lese Wert mittels get(): %d\n", *(int *)get());
-    printf("Queue, Lese Wert mittels get(): %d\n", *(int *)get());
-    printf("Queue, Lese Wert mittels get(): %d\n", *(int *)get());
-
+    readNextValueQueue();
+    readNextValueQueue();
+    readNextValueQueue();
+    readNextValueQueue();
 
     checkQueueSize();
 
