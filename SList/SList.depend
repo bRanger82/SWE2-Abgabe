@@ -1,0 +1,76 @@
+# depslib dependency file v1.0
+1491403451 source:c:\users\hase\desktop\fh\cprojekte\slist\main.c
+	<stdio.h>
+	<stdlib.h>
+	"SList.h"
+	<string.h>
+
+1491403564 source:c:\users\hase\desktop\fh\cprojekte\slist\slist.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"SList.h"
+
+1491402237 c:\users\hase\desktop\fh\cprojekte\slist\slist.h
+
+1491405995 source:c:\users\hase\desktop\fh\cprojekte\slist\queue.c
+	<stdio.h>
+	<stdlib.h>
+	"Queue.h"
+	"SList.h"
+
+1491406169 c:\users\hase\desktop\fh\cprojekte\slist\queue.h
+	<stdbool.h>
+
+1491406034 source:c:\users\hase\desktop\fh\cprojekte\slist\stack.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"Queue.h"
+	"SList.h"
+
+1492979540 source:c:\users\hase\fh\cprojekte\slist\main.c
+	<stdio.h>
+	<stdlib.h>
+	"SList.h"
+	<string.h>
+	"DeQueue.h"
+	"Stack.h"
+	"Queue.h"
+
+1491402238 c:\users\hase\fh\cprojekte\slist\slist.h
+
+1492978652 source:c:\users\hase\fh\cprojekte\slist\queue.c
+	<stdio.h>
+	<stdlib.h>
+	"Queue.h"
+	"SList.h"
+
+1491406170 c:\users\hase\fh\cprojekte\slist\queue.h
+	<stdbool.h>
+
+1492105904 source:c:\users\hase\fh\cprojekte\slist\slist.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"SList.h"
+
+1492979379 source:c:\users\hase\fh\cprojekte\slist\stack.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"Stack.h"
+	"SList.h"
+
+1492978686 source:c:\users\hase\fh\cprojekte\slist\dequeue.c
+	<stdio.h>
+	<stdlib.h>
+	"DeQueue.h"
+	"SList.h"
+
+1492969578 c:\users\hase\fh\cprojekte\slist\dequeue.h
+	<stdio.h>
+	<stdbool.h>
+
+1492977051 c:\users\hase\fh\cprojekte\slist\stack.h
+
