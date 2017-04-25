@@ -20,12 +20,17 @@
 #include <string.h>
 #include "TestProgram.h"
 
+#define EXIT_BREAK -2
+
 int selectAndRunTests(void); // Testauswahl und Ausfuehrung
 
 int main()
 {
     // Rueckgabewert wird einer Variablen zugewiesen, falls diese vor Return weiter verwendet werden soll
     int returnTestValue = selectAndRunTests();
+    
+    // Endlos bis invalide Eingabe:
+    // while (selectAndRunTests() == EXIT_BREAK) {} Anzeigetext anpassen fuer diesem Fall
     return returnTestValue;
 }
 
@@ -56,6 +61,7 @@ int selectAndRunTests(void)
     switch(str[0])
     {
         case 'A': return EXIT_SUCCESS;
+        case 'E': return EXIT_BREAK;
         case '1': runStackTest(); break;
         case '2': runQueueTest(); break;
         case '3': runDeQueueTest(); break;
