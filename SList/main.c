@@ -29,8 +29,9 @@ int main()
     // Rueckgabewert wird einer Variablen zugewiesen, falls diese vor Return weiter verwendet werden soll
     int returnTestValue = selectAndRunTests();
     
-    // Endlos bis invalide Eingabe:
-    // while (selectAndRunTests() == EXIT_BREAK) {} Anzeigetext anpassen fuer diesem Fall
+    // Zweite Variante:
+    // while (selectAndRunTests() == EXIT_BREAK) {} Anzeigetext anpassen fuer diesem Fall, siehe void selectAndRunTests(void)
+    
     return returnTestValue;
 }
 
