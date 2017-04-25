@@ -61,8 +61,8 @@ int selectAndRunTests(void)
     //Abhaengig davon, welche Option gewaehlt wurde den Test ausfuehren
     switch(str[0])
     {
-        case 'A': return EXIT_SUCCESS;
-        case 'E': return EXIT_BREAK;
+        case 'A': case 'a': return EXIT_SUCCESS; // nicht case-sensitiv!
+        case 'E': case 'e': return EXIT_BREAK;   // nicht case-sensitiv!
         case '1': runStackTest(); break;
         case '2': runQueueTest(); break;
         case '3': runDeQueueTest(); break;
