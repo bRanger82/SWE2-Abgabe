@@ -1,3 +1,20 @@
+/**
+ * file: TestProgram.c
+ *
+ * Zweck: Beinhaltet das Testprogramm fuer den Stack, die Queue und die Double-Ended-Queue
+ *
+ * date: 2017-04-25
+ * progtimeest.: 120 min
+ * progtimereal: 120 min
+ * author: Michael Bieringer
+ * email: Michael.Bieringer@gmx.net
+ *
+ * Salzburg University of Applied Sciences
+ * Information Technology & Systems Management
+ * SWE2 2017 Uebung
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "SList.h"
@@ -7,38 +24,30 @@
 #include "Queue.h"
 #include "TestProgram.h"
 
+// Liest naechsten Wert aus dem Stack aus und gibt diese Information auf stdout aus
 void readNextValueStack(void)
 {
     if (NULL != (int *) top())
-        printf("Stack, Lese Wert mittels pop(): %d\n", *(int *)pop());
+        printf("\tStack, Lese Wert mittels pop(): %d\n", *(int *)pop());
     else
-        printf("Stack, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
+        printf("\tStack, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
 }
 
-void readLastValueDeQueue(void)
+// Prueft die Antzahl der Eintrage und gibt diese Information auf stdout aus
+void checkStackSize(void)
 {
-    if (NULL != (int *) DQ_examine_last_element())
-        printf("DeQueue, Lese Wert mittels DQ_remove_element_at_back(): %d\n", *(int *)DQ_remove_element_at_back());
+    if (0 == Slength())
+        printf("\tTest Slength(): Stack hat die Laenge 0 oder ist nicht initialisiert!\n");
     else
-        printf("DeQueue, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
+        printf("\tTest Slength(): Stack hat die Laenge %d\n", Slength());
+
+    if (Sempty())
+        printf("\tTest Sempty():  Stack ist leer oder nicht initialisiert!\n");
+    else
+        printf("\tTest Sempty():  Stack ist _nicht_ leer!\n");
 }
 
-void readFirstValueDeQueue(void)
-{
-    if (NULL != (int *) DQ_examine_first_element())
-        printf("DeQueue, Lese Wert mittels DQ_remove_element_at_front(): %d\n", *(int *)DQ_remove_element_at_front());
-    else
-        printf("DeQueue, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
-}
-
-void readNextValueQueue(void)
-{
-    if (NULL != (int *) next())
-        printf("Queue, Lese Wert mittels get(): %d\n", *(int *)get());
-    else
-        printf("Queue, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
-}
-
+// Testprozedur fuer den Stack
 void runStackTest(void)
 {
     printf("********************************\n");
@@ -53,7 +62,7 @@ void runStackTest(void)
     {
         int * tmp = (int *) malloc(sizeof(int));
         memcpy(tmp, &i, sizeof(int));
-        printf("Stack: Fuege den Wert %d hinzu ... \n", i);
+        printf("\tStack: Fuege den Wert %d hinzu ... \n", i);
         push(tmp);
     }
     checkStackSize();
@@ -64,7 +73,7 @@ void runStackTest(void)
     readNextValueStack();
 
 
-    printf("Stack: Sdelete() wird ausgefuehrt\n");
+    printf("\tStack: Sdelete() wird ausgefuehrt\n");
     Sdelete();
 
     checkStackSize();
@@ -74,33 +83,30 @@ void runStackTest(void)
     printf("********************************\n");
 }
 
-void checkStackSize(void)
+// Liest naechsten Wert aus der Queue aus und gibt diese Information auf stdout aus
+void readNextValueQueue(void)
 {
-    printf("checkStackSize reached\n");
-    if (0 == Slength())
-        printf("Test Slength(): Stack hat die Laenge 0 oder ist nicht initialisiert!\n");
+    if (NULL != (int *) next())
+        printf("\tQueue, Lese Wert mittels get(): %d\n", *(int *)get());
     else
-        printf("Test Slength(): Stack hat die Laenge %d\n", Slength());
-
-    if (Sempty())
-        printf("Test Sempty():  Stack ist leer oder nicht initialisiert!\n");
-    else
-        printf("Test Sempty():  Stack ist _nicht_ leer!\n");
+        printf("\tQueue, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
 }
 
+// Prueft die Antzahl der Eintrage und gibt diese Information auf stdout aus
 void checkQueueSize(void)
 {
     if (0 == Qlength())
-        printf("Test Qlength(): Queue hat die Laenge 0 oder ist nicht initialisiert!\n");
+        printf("\tTest Qlength(): Queue hat die Laenge 0 oder ist nicht initialisiert!\n");
     else
-        printf("Test Qlength(): Queue hat die Laenge %d\n", Qlength());
+        printf("\tTest Qlength(): Queue hat die Laenge %d\n", Qlength());
 
     if (Qempty())
-        printf("Test Qempty():  Queue ist leer oder nicht initialisiert!\n");
+        printf("\tTest Qempty():  Queue ist leer oder nicht initialisiert!\n");
     else
-        printf("Test Qempty():  Queue ist _nicht_ leer!\n");
+        printf("\tTest Qempty():  Queue ist _nicht_ leer!\n");
 }
 
+// Testprozedur fuer die Queue
 void runQueueTest(void)
 {
     printf("********************************\n");
@@ -115,7 +121,7 @@ void runQueueTest(void)
     {
         int * tmp = (int *) malloc(sizeof(int));
         memcpy(tmp, &i, sizeof(int));
-        printf("Queue: Fuege den Wert %d hinzu ... \n", i);
+        printf("\tQueue: Fuege den Wert %d hinzu ... \n", i);
         put(tmp);
     }
 
@@ -127,7 +133,7 @@ void runQueueTest(void)
 
     checkQueueSize();
 
-    printf("Queue: Qdelete() wird ausgefuehrt\n");
+    printf("\tQueue: Qdelete() wird ausgefuehrt\n");
     Qdelete();
 
     checkQueueSize();
@@ -136,16 +142,81 @@ void runQueueTest(void)
     printf("********************************\n");
 }
 
-void runDQueueTest(void)
+// Prueft die Antzahl der Eintrage und gibt diese Information auf stdout aus
+void checkDeQueueSize(void)
 {
-    printf("********************************\n");
-    printf("--  Double-Ended-Queue Start  --\n");
-    printf("********************************\n");
+    if (0 == DQ_length())
+        printf("\tTest DeQlength(): DeQueue hat die Laenge 0 oder ist nicht initialisiert!\n");
+    else
+        printf("\tTest DeQlength(): DeQueue hat die Laenge %d\n", DQ_length());
 
     if (DQ_empty())
-        printf("Double-Ended-Queue ist leer oder nicht initialisiert!\n");
+        printf("\tTest DQ_empty():  DeQueue ist leer oder nicht initialisiert!\n");
+    else
+        printf("\tTest DQ_empty():  DeQueue ist _nicht_ leer!\n");
+}
+
+// Liest den _hinteren_ Wert aus der Double-Ended-Queue aus und gibt diese Information auf stdout aus
+void readLastValueDeQueue(void)
+{
+    if (NULL != (int *) DQ_examine_last_element())
+        printf("\tDeQueue, Lese Wert mittels DQ_remove_element_at_back(): %d\n", *(int *)DQ_remove_element_at_back());
+    else
+        printf("\tDeQueue, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
+}
+
+// Liest den _vorderen_ Wert aus der Double-Ended-Queue aus und gibt diese Information auf stdout aus
+void readFirstValueDeQueue(void)
+{
+    if (NULL != (int *) DQ_examine_first_element())
+        printf("\tDeQueue, Lese Wert mittels DQ_remove_element_at_front(): %d\n", *(int *)DQ_remove_element_at_front());
+    else
+        printf("\tDeQueue, FEHLER Lese Wert: ist leer oder nicht initialisiert!\n");
+}
+
+// Testprozedur fuer die Double-Ended-Queue
+void runDeQueueTest(void)
+{
+    printf("********************************\n");
+    printf("-----  DeQueue-Test Start  -----\n");
+    printf("********************************\n");
+
+    checkDeQueueSize();
+
+    int i = 0;
+    for (i=0; i<2; i++)
+    {
+        int * tmp = (int *) malloc(sizeof(int));
+        memcpy(tmp, &i, sizeof(int));
+        printf("\tDeQueue: Fuege den Wert %d hinzu (DQ_insert_element_at_front) \n", i);
+        DQ_insert_element_at_front(tmp);
+    }
+
+    for (i=5; i>3; i--)
+    {
+        int * tmp = (int *) malloc(sizeof(int));
+        memcpy(tmp, &i, sizeof(int));
+        printf("\tDeQueue: Fuege den Wert %d hinzu (DQ_insert_element_at_last) \n", i);
+        DQ_insert_element_at_back(tmp);
+    }
+
+    checkDeQueueSize();
+
+    readFirstValueDeQueue();
+    readLastValueDeQueue();
+    readFirstValueDeQueue();
+    readLastValueDeQueue();
+
+
+    printf("\tDeQueue: DQ_delete() wird ausgefuehrt\n");
+    DQ_delete();
+
+    checkDeQueueSize();
 
     printf("********************************\n");
-    printf("--  Double-Ended-Queue Ende   --\n");
+    printf("-----  DeQueue-Test Ende   -----\n");
     printf("********************************\n");
 }
+
+
+

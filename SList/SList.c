@@ -1,3 +1,21 @@
+/**
+ * file: SList.c
+ *
+ * Zweck: Beinhaltet Programmcode fuer die Verwendung der Doppelt-Verketteten-Liste
+ * (wird fuer DeQueue, Queue und Stack verwendet)
+ *
+ * date: 2017-04-25
+ * progtimeest.: 120 min
+ * progtimereal: 120 min
+ * author: Michael Bieringer
+ * email: Michael.Bieringer@gmx.net
+ *
+ * Salzburg University of Applied Sciences
+ * Information Technology & Systems Management
+ * SWE2 2017 Uebung
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

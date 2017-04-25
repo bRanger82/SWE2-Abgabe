@@ -74,51 +74,52 @@
 
 1492977051 c:\users\hase\fh\cprojekte\slist\stack.h
 
-1493100929 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\main.c
+1493104300 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	"TestProgram.h"
 
-1492981397 c:\users\bimi\downloads\swe2-abgabe-master\slist\slist.h
+1493104630 c:\users\bimi\downloads\swe2-abgabe-master\slist\slist.h
 
-1493099494 c:\users\bimi\downloads\swe2-abgabe-master\slist\dequeue.h
+1493104509 c:\users\bimi\downloads\swe2-abgabe-master\slist\dequeue.h
 	<stdlib.h>
 	<stdbool.h>
 
-1493099503 c:\users\bimi\downloads\swe2-abgabe-master\slist\stack.h
+1493104625 c:\users\bimi\downloads\swe2-abgabe-master\slist\stack.h
 	<stdlib.h>
 	<stdbool.h>
 
-1493099487 c:\users\bimi\downloads\swe2-abgabe-master\slist\queue.h
+1493104507 c:\users\bimi\downloads\swe2-abgabe-master\slist\queue.h
 	<stdlib.h>
 	<stdbool.h>
 
-1493100476 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\slist.c
+1493104551 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\slist.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"SList.h"
 
-1493100500 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\dequeue.c
+1493104333 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\dequeue.c
 	<stdio.h>
 	<stdlib.h>
 	"DeQueue.h"
 	"SList.h"
 
-1493100501 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\queue.c
+1493104358 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\queue.c
 	<stdio.h>
 	<stdlib.h>
 	"Queue.h"
 	"SList.h"
 
-1493100476 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\stack.c
+1493104371 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\stack.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"Stack.h"
 	"SList.h"
 
-1493100957 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\testprogram.c
+1493104458 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\testprogram.c
 	<stdio.h>
 	<stdlib.h>
 	"SList.h"
@@ -128,7 +129,7 @@
 	"Queue.h"
 	"TestProgram.h"
 
-1493100957 c:\users\bimi\downloads\swe2-abgabe-master\slist\testprogram.h
+1493106353 c:\users\bimi\downloads\swe2-abgabe-master\slist\testprogram.h
 	<stdlib.h>
 	<stdbool.h>
 

@@ -1,3 +1,20 @@
+/**
+ * file: Queue.h
+ *
+ * Zweck: Beinhaltet die Prototypen fuer die Queue
+ *
+ * date: 2017-04-25
+ * progtimeest.: 120 min
+ * progtimereal: 120 min
+ * author: Michael Bieringer
+ * email: Michael.Bieringer@gmx.net
+ *
+ * Salzburg University of Applied Sciences
+ * Information Technology & Systems Management
+ * SWE2 2017 Uebung
+ *
+ */
+
 #include <stdlib.h>
 #include <stdbool.h>
 
