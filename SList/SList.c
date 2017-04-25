@@ -177,12 +177,13 @@ void print_all_SList(SLIST_HEADER* aList, FILE* device, void (*myPrint)(FILE *, 
 }
 
 
-void rm_SList(SLIST_HEADER* aList)
+void rm_SList(SLIST_HEADER * aList)
 {
     while (aList->Len)
       deleteLast(aList);
 
     free (aList); /* alle Knoten geloescht, Header noch freigeben */
+
 }
 
 

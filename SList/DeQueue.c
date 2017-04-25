@@ -3,9 +3,21 @@
 #include "DeQueue.h"
 #include "SList.h"
 
-const int DQ_LEN_NOT_EXIST = -1;
 
 SLIST_HEADER * DQueueHead = NULL;
+
+
+// Prueft, ob die DeQueue NULL oder leer (Len==0) ist (return false), sonst return true
+bool checkDeQueueAvailable(void)
+{
+    if (NULL == DQueueHead)  //konnte queue erfolgreich angelegt werden?
+        return false;
+
+    if (0 == DQueueHead->Len)
+        return false;
+
+    return true;
+}
 
 // Hinzufügen eines neuen Eintrags in den DEQUEUE Speicher
 void * DQ_insert_element_at_back(void * data)
@@ -22,7 +34,7 @@ void * DQ_insert_element_at_back(void * data)
 // Holen eines Eintrags aus dem DEQUEUE Speicher
 void * DQ_remove_element_at_back(void)
 {
-    if (NULL == DQueueHead)  //konnte queue erfolgreich angelegt werden?
+    if (!checkDeQueueAvailable())  //konnte queue erfolgreich angelegt werden?
         return NULL;
 
     return deleteLast(DQueueHead);
@@ -43,7 +55,7 @@ void * DQ_insert_element_at_front(void * data)
 // Holen eines Eintrags aus dem DEQUEUE Speicher
 void * DQ_remove_element_at_front(void)
 {
-    if (NULL == DQueueHead)  //konnte queue erfolgreich angelegt werden?
+    if (!checkDeQueueAvailable())  //konnte queue erfolgreich angelegt werden?
         return NULL;
 
     return deleteFirst(DQueueHead);
@@ -52,7 +64,7 @@ void * DQ_remove_element_at_front(void)
 // Abfragen des ersten Element
 void * DQ_examine_first_element(void)
 {
-    if (DQ_empty())  //konnte queue erfolgreich angelegt werden?
+    if (!checkDeQueueAvailable())  //konnte queue erfolgreich angelegt werden?
         return NULL;
 
     return DQueueHead->First;
@@ -61,7 +73,7 @@ void * DQ_examine_first_element(void)
 // Abfragen des letzten Element
 void * DQ_examine_last_element(void)
 {
-    if (DQ_empty())  //konnte queue erfolgreich angelegt werden?
+    if (!checkDeQueueAvailable())  //konnte queue erfolgreich angelegt werden?
         return NULL;
 
     return DQueueHead->Last;
@@ -70,18 +82,15 @@ void * DQ_examine_last_element(void)
 // Abfragen, ob DEQUEUE Speicher leer ist
 bool DQ_empty(void)
 {
-    if (NULL == DQueueHead)  //konnte queue erfolgreich angelegt werden?
-        return true;
-
-    return (0 == DQueueHead->Len);
+    return !checkDeQueueAvailable();
 }
 
 // Löschen des gesamten DEQUEUE Speichers
 void DQ_delete(void)
 {
-    if (NULL == DQueueHead)  //konnte queue erfolgreich angelegt werden?
-        return false;
+    if (NULL == DQueueHead)  //Keine DeQueue vorhanden
+        return;
+
     rm_SList(DQueueHead);
-    free(DQueueHead);
     DQueueHead = NULL;
 }

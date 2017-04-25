@@ -59,10 +59,7 @@ void * next(void)
 // Abfragen, ob FIFO Speicher leer ist
 bool Qempty(void)
 {
-    if (!checkQueueAvailable())  //konnte queue erfolgreich angelegt werden?
-        return true;
-
-    return (queueHead->Len == 0) ? true : false;
+    return !checkQueueAvailable();
 }
 
 // Abfragen, wieviele Eintrage im FIFO Speicher abgelegt sind
@@ -77,10 +74,9 @@ int Qlength(void)
 // Loeschen des gesamten FIFO Speichers
 void Qdelete(void)
 {
-    if (!checkQueueAvailable())  //konnte queue erfolgreich angelegt werden?
+    if (NULL == queueHead)  //konnte queue erfolgreich angelegt werden?
         return NULL;
 
     rm_SList(queueHead);
-    free(queueHead);
     queueHead = NULL;
 }

@@ -5,8 +5,22 @@
 #include "SList.h"
 
 
-
 SLIST_HEADER * stackHead = NULL;
+
+/* Prueft, ob der Stack angelegt und zumindest ein Datensatz vorhanden ist
+   Return-Werte:
+        - true: stack nicht NULL und Len > 0
+        - sonst false
+*/
+bool checkStackAvailable(void)
+{
+    if (NULL == stackHead)  //Exisitiert einen Queue
+        return false;
+    if (0 == stackHead->Len) //Wenn existiert, ist zumindest ein Element vorhanden?
+        return false;
+
+    return true; // Wenn Queue existiert und mindestens ein Element vorhanden gibt true zurueck
+}
 
 /*
     Element der obersten Stack Position, ohne es aus dem Stack zu entfernen
@@ -16,11 +30,9 @@ SLIST_HEADER * stackHead = NULL;
 */
 void * top()
 {
-    if (NULL == stackHead)
+    if (!checkStackAvailable())
         return NULL;
 
-    if (0 == stackHead->Len)
-        return NULL; //TODO
     SLIST * element = stackHead->Last;
     return element->Data;
 }
@@ -34,10 +46,7 @@ void * top()
 */
 bool Sempty()
 {
-    if (NULL == stackHead)
-        return true;
-
-    return (0 == stackHead->Len) ? true : false; // TODO
+    return !(checkStackAvailable()); // TODO
 }
 
 /*
@@ -65,17 +74,16 @@ void * push(void * data)
 */
 void * pop()
 {
-   if (0 == stackHead->Len)
-        return NULL; //TODO
+    if (!checkStackAvailable())
+        return NULL;
 
     return deleteLast(stackHead);
 }
 
-
 //Gibt die Anzahl der Elemente im Stack zurueck
 int Slength(void)
 {
-    if (NULL == stackHead)
+    if (!checkStackAvailable())
         return 0;
 
     return stackHead->Len; //TODO
@@ -84,11 +92,10 @@ int Slength(void)
 //Setzt den Stack zurueck und loescht auch den Inhalt
 void Sdelete(void)
 {
-    if (NULL == stackHead)
+    if (NULL == stackHead)  //Exisitiert einen Queue
         return;
 
     rm_SList(stackHead);
-    free(stackHead);
     stackHead = NULL;
 }
 

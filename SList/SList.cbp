@@ -47,6 +47,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Stack.h" />
+		<Unit filename="TestProgram.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TestProgram.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
