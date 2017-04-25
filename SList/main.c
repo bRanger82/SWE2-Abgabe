@@ -47,12 +47,15 @@ int selectAndRunTests(void)
     printf("\t[2]: Fuehrt einen Test des Queue-Speicher aus\n");
     printf("\t[3]: Fuehrt einen Test des Double-Ended Queue Speicher aus\n");
     printf("\t[4]: Fuehrt alle Tests aus (Stack, Queue und Double-Ended Queue)\n");
+    printf("\t[A]: Test abbrechen\n");
     printf("Ihre Auswahl: ");
+
     fgets(str, 255, stdin);
 
     //Abhaengig davon, welche Option gewaehlt wurde den Test ausfuehren
     switch(str[0])
     {
+        case 'A': return EXIT_SUCCESS;
         case '1': runStackTest(); break;
         case '2': runQueueTest(); break;
         case '3': runDeQueueTest(); break;
@@ -67,4 +70,5 @@ int selectAndRunTests(void)
 
     return EXIT_SUCCESS;
 }
+
 

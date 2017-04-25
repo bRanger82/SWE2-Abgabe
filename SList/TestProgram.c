@@ -27,6 +27,8 @@
 // Liest naechsten Wert aus dem Stack aus und gibt diese Information auf stdout aus
 void readNextValueStack(void)
 {
+    // Bevor der Wert geholt (und damit geloescht) werden kann muss geprueft werden ob ein Wert Vorhanden ist
+    // man koennte auch die Funktion Sempty() verwenden
     if (NULL != (int *) top())
         printf("\tStack, Lese Wert mittels pop(): %d\n", *(int *)pop());
     else
@@ -36,11 +38,13 @@ void readNextValueStack(void)
 // Prueft die Antzahl der Eintrage und gibt diese Information auf stdout aus
 void checkStackSize(void)
 {
+    // Pruefen der Laenge bzw. Anzahl der Elemente
     if (0 == Slength())
         printf("\tTest Slength(): Stack hat die Laenge 0 oder ist nicht initialisiert!\n");
     else
         printf("\tTest Slength(): Stack hat die Laenge %d\n", Slength());
 
+    // Pruefen der Ist-Leer Funktion
     if (Sempty())
         printf("\tTest Sempty():  Stack ist leer oder nicht initialisiert!\n");
     else
@@ -95,11 +99,13 @@ void readNextValueQueue(void)
 // Prueft die Antzahl der Eintrage und gibt diese Information auf stdout aus
 void checkQueueSize(void)
 {
+    // Pruefen der Laenge bzw. Anzahl der Elemente
     if (0 == Qlength())
         printf("\tTest Qlength(): Queue hat die Laenge 0 oder ist nicht initialisiert!\n");
     else
         printf("\tTest Qlength(): Queue hat die Laenge %d\n", Qlength());
 
+    // Pruefen der Ist-Leer Funktion
     if (Qempty())
         printf("\tTest Qempty():  Queue ist leer oder nicht initialisiert!\n");
     else
@@ -116,6 +122,7 @@ void runQueueTest(void)
     checkQueueSize();
     readNextValueQueue();
 
+    //Elemente hinzfuegen, Speicher muss zuvor mittels malloc allokiert werden
     int i = 0;
     for (i=0; i<5; i++)
     {
@@ -145,11 +152,13 @@ void runQueueTest(void)
 // Prueft die Antzahl der Eintrage und gibt diese Information auf stdout aus
 void checkDeQueueSize(void)
 {
+    // Pruefen der Laenge bzw. Anzahl der Elemente
     if (0 == DQ_length())
         printf("\tTest DeQlength(): DeQueue hat die Laenge 0 oder ist nicht initialisiert!\n");
     else
         printf("\tTest DeQlength(): DeQueue hat die Laenge %d\n", DQ_length());
 
+    // Pruefen der Ist-Leer Funktion
     if (DQ_empty())
         printf("\tTest DQ_empty():  DeQueue ist leer oder nicht initialisiert!\n");
     else
@@ -183,7 +192,9 @@ void runDeQueueTest(void)
 
     checkDeQueueSize();
 
-    int i = 0;
+    int i = 0; // For-Schleife, Hinzufuegen der Elemente
+
+    //Elemente hinzfuegen, Speicher muss zuvor mittels malloc allokiert werden
     for (i=0; i<2; i++)
     {
         int * tmp = (int *) malloc(sizeof(int));

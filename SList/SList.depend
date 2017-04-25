@@ -94,7 +94,7 @@
 	<stdlib.h>
 	<stdbool.h>
 
-1493104551 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\slist.c
+1493112282 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\slist.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -119,7 +119,7 @@
 	"Stack.h"
 	"SList.h"
 
-1493104458 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\testprogram.c
+1493112542 source:c:\users\bimi\downloads\swe2-abgabe-master\slist\testprogram.c
 	<stdio.h>
 	<stdlib.h>
 	"SList.h"

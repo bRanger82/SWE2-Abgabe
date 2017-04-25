@@ -204,9 +204,6 @@ void rm_SList(SLIST_HEADER * aList)
 
 }
 
-
-
-
 void * get_entrySList(SLIST_HEADER* aList, int number)
 {
     if (number>=1 && number<=aList->Len)
