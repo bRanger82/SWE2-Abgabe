@@ -22,12 +22,9 @@ int rekSumMin(int i, int min)
 int rekSumMax(int i, int max)
 {
     if (i <= max)
-    {
         return i + rekSumMax(i + 1, max);
-    } else
-    {
+    else
         return 0;
-    }
 }
 
 int main(int argc, char* argv[])
