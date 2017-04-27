@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1493302936 source:c:\users\bimi\c-projects\binsearchtree\main.c
+	<stdio.h>
+	<stdlib.h>
+	"binTree.h"
+
+1493302824 source:c:\users\bimi\c-projects\binsearchtree\bintree.c
+	<stdio.h>
+	<stdlib.h>
+	"binTree.h"
+
+1493301612 c:\users\bimi\c-projects\binsearchtree\bintree.h
+	<stdlib.h>
+
