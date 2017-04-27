@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1493300421 source:c:\users\bimi\c-projects\btree\btree.c
+	<stdio.h>
+	<stdlib.h>
+
+1493300024 source:c:\users\bimi\c-projects\btree\btree_suchen.c
+	<stdio.h>
+	<stdlib.h>
+
+1493300025 source:c:\users\bimi\c-projects\btree\btree_traversieren.c
+	<stdio.h>
+	<stdlib.h>
+
