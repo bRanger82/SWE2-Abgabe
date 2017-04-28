@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1493216596 source:c:\users\hase\desktop\fh\cprojekte\doppelverkettetelisterekursiv\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Liste.h"
+
+1493216607 source:c:\users\hase\desktop\fh\cprojekte\doppelverkettetelisterekursiv\liste.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"Liste.h"
+
+1493216483 c:\users\hase\desktop\fh\cprojekte\doppelverkettetelisterekursiv\liste.h
+
+1493216713 source:c:\users\hase\desktop\doppelverkettetelisterekursiv\liste.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"Liste.h"
+
+1493216483 c:\users\hase\desktop\doppelverkettetelisterekursiv\liste.h
+

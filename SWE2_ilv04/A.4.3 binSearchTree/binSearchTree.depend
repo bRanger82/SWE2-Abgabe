@@ -1,0 +1,45 @@
+# depslib dependency file v1.0
+1493373965 source:c:\users\bimi\c-projects\binsearchtree\main.c
+	<stdio.h>
+	<stdlib.h>
+	"TestProgram.h"
+
+1493371208 source:c:\users\bimi\c-projects\binsearchtree\bintree.c
+	<stdio.h>
+	<stdlib.h>
+	"binTree.h"
+
+1493301612 c:\users\bimi\c-projects\binsearchtree\bintree.h
+	<stdlib.h>
+
+1493373821 c:\users\bimi\c-projects\binsearchtree\testprogram.h
+	<stdlib.h>
+	<stdbool.h>
+	"binTree.h"
+
+1493397550 source:c:\users\hase\desktop\binsearchtree_wtest\bintree.c
+	<stdio.h>
+	<stdlib.h>
+	"binTree.h"
+
+1493397187 c:\users\hase\desktop\binsearchtree_wtest\bintree.h
+	<stdlib.h>
+
+1493398355 source:c:\users\hase\desktop\binsearchtree_wtest\testprogram.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<time.h>
+	"TestProgram.h"
+
+1493397727 c:\users\hase\desktop\binsearchtree_wtest\testprogram.h
+	<stdlib.h>
+	<stdbool.h>
+	"binTree.h"
+
+1493396688 source:c:\users\hase\desktop\binsearchtree_wtest\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"TestProgram.h"
+
