@@ -9,13 +9,20 @@ const char * cmdEcho = "echo";       // Ausgabe von Text auf stdout
 const char * cmdPushDir = "pushdir"; // Ablegen eines Verzeichnisses
 const char * cmdPopDir = "popdir";   // Auslesen des Verzeichnisses welches mit pushdir abgelegt wurde
 const char * cmdListDir = "ls";	     // Zeige das Inhaltsverzeichnis an
+const char * cmdGetLCode = "echo$?";// Gibt den Errorcode des zuletzt ausgefuehrten Befehls aus
 // Ende Definition Kommandos
 
 // Definition Farbausgabe printf()
 #define NORMAL_COLOR  "\x1B[0m"
 #define GREEN         "\x1B[32m"
 #define BLUE          "\x1B[34m"
+#define MANGAN        "\x1B[35m"
 // Ende Definition Farbausgabe
+
+// Bitmaske fuer die ls Parameter
+#define MASK_LS_a 1
+#define MASK_LS_l 2
+// Ende Bitmaske fuer ls
 
 // Definition der Rueckgabe-Werte der Parsing Funktion
 #define RET_PARSE_CMD_SYS -12    // Aufruf von system(command)
@@ -25,6 +32,11 @@ const char * cmdListDir = "ls";	     // Zeige das Inhaltsverzeichnis an
 #define RET_PARSE_CMD_OK 0       // Eingabe konnte erfolgreich verarbeitet werden
 #define RET_PARSE_CMD_EXIT 1     // Der Befehl zum Beenden der Shell
 // Ende Definition Rueckgabe-Werte
+
+// Definition Rueckgabe-Werte fuer FORK
+#define RET_FORK_OK   0
+#define RET_FORK_ERR -1
+// Ende Definition Rueckgabe-Werte fuer FORK
 
 #define MAX_LENGTH 1024   // Puffer fuer die Eingabe
 #define DELIMS " \t\r\n"  // Trennzeichen-Erkennung zwischen den Parametern
@@ -39,4 +51,8 @@ struct tm * getTimeInfo(void)
 }
 
 void showHelp(void);          // Methode, welche die Hilfe auf stdout ausgibt
-int parseInput(char * input); // Methode, welche die Eingabe verarbeitet. Rueckgabewerte siehe RET_PARSE_CMD_*
+int parseInput(char * input, char * envp[]); // Methode, welche die Eingabe verarbeitet. Rueckgabewerte siehe RET_PARSE_CMD_*
+int execute(char * command, char * params);		  // Kind-Prozess erzeugen
+void removeSubstring(char *s,const char *toremove);
+bool FileExist(char * path);
+bool findExecutable(char * values, char * found, char * command);
